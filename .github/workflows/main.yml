@@ -1,0 +1,40 @@
+name: MLflow Recipes Example Tests
+
+on:
+  push:
+    branches:
+      - main
+      - branch-[0-9]+.[0-9]+
+  pull_request:
+    branches:
+      - main
+      - branch-[0-9]+.[0-9]+
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref == 'refs/heads/main' && github.run_number || github.ref }}
+  cancel-in-progress: true
+
+# Use `bash --noprofile --norc -exo pipefail` by default for all `run` steps in this workflow:
+# https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#defaultsrun
+defaults:
+  run:
+    shell: bash --noprofile --norc -exo pipefail {0}
+
+env:
+  # Note miniconda is pre-installed in the virtual environments for GitHub Actions:
+  # https://github.com/actions/virtual-environments/blob/main/images/linux/scripts/installers/miniconda.sh
+  MLFLOW_CONDA_HOME: /usr/share/miniconda
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.8"
+      - name: Install dependencies
+        run: |
+          pip install -r requirements/lint-requirements.txt
+      - name: Run lint checks
+        run: ./.github/workflows/scripts/lint.sh
