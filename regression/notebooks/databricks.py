@@ -15,6 +15,10 @@
 
 # COMMAND ----------
 
+# MAGIC %md ### Create a new recipe with "databricks" profile:
+
+# COMMAND ----------
+
 from mlflow.recipes import Recipe
 
 r = Recipe(profile="databricks")
@@ -25,11 +29,23 @@ r.clean()
 
 # COMMAND ----------
 
+# MAGIC %md ### Inspect a newly created recipe using a graphical representation:
+
+# COMMAND ----------
+
 r.inspect()
 
 # COMMAND ----------
 
+# MAGIC %md ### Ingest the dataset into the recipe:
+
+# COMMAND ----------
+
 r.run("ingest")
+
+# COMMAND ----------
+
+# MAGIC %md ### Split the dataset in train, validation and test data profiles:
 
 # COMMAND ----------
 
@@ -41,11 +57,23 @@ r.run("transform")
 
 # COMMAND ----------
 
+# MAGIC %md ### Using training data profile, train the model:
+
+# COMMAND ----------
+
 r.run("train")
 
 # COMMAND ----------
 
+# MAGIC %md ### Evaluate the resulting model using validation data profile:
+
+# COMMAND ----------
+
 r.run("evaluate")
+
+# COMMAND ----------
+
+# MAGIC %md ### Register the trained model in the registry:
 
 # COMMAND ----------
 
