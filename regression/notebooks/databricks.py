@@ -11,7 +11,8 @@
 # COMMAND ----------
 
 # MAGIC %pip install mlflow
-# MAGIC %pip install -r ../requirements.txt
+# MAGIC %pip install -r ../../requirements.txt
+# MAGIC %pip install -r ../../requirements/requirements.txt
 
 # COMMAND ----------
 
