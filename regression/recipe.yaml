@@ -45,7 +45,7 @@ steps:
       - metric: mean_absolute_error
         threshold: 50
       - metric: weighted_mean_squared_error
-        threshold: 20
+        threshold: 30
   register:
     # Indicates whether or not a model that fails to meet performance thresholds should still
     # be registered to the MLflow Model Registry
