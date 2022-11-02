@@ -29,8 +29,15 @@ steps:
     transformer_method: steps.transform.transformer_fn
   train:
     using: estimator_spec
-    # Specifies the method that defines the estimator type and parameters to use for model training
-    estimator_method: steps.train.estimator_fn
+    
+    using: automl/flaml
+    time_budget_secs: 20
+    flaml_params:
+      # Specifies the the types of estimators to use model training
+      estimator_list:
+        - xgboost
+        - rf
+        - lgbm
   evaluate:
     # Sets performance thresholds that a trained model must meet in order to be eligible for
     # registration to the MLflow Model Registry
