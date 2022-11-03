@@ -11,7 +11,6 @@
 # COMMAND ----------
 
 # MAGIC %pip install -r ../../requirements.txt
-# MAGIC %pip install -r ../../requirements/regression-requirements.txt
 # MAGIC %pip install mlflow
 
 # COMMAND ----------
