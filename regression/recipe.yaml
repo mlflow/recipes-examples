@@ -28,14 +28,9 @@ steps:
     # Specifies the method that defines the data transformations to apply during model inference
     transformer_method: steps.transform.transformer_fn
   train:
-    using: automl/flaml
-    time_budget_secs: 20
-    flaml_params:
-      # Specifies the the types of estimators to use model training
-      estimator_list:
-        - xgboost
-        - rf
-        - lgbm
+    using: estimator_spec
+    # Specifies the method that defines the estimator type and parameters to use for model training
+    estimator_method: steps.train.estimator_fn
   evaluate:
     # Sets performance thresholds that a trained model must meet in order to be eligible for
     # registration to the MLflow Model Registry
@@ -45,7 +40,7 @@ steps:
       - metric: mean_absolute_error
         threshold: 50
       - metric: weighted_mean_squared_error
-        threshold: 30
+        threshold: 50
   register:
     # Indicates whether or not a model that fails to meet performance thresholds should still
     # be registered to the MLflow Model Registry
