@@ -21,6 +21,7 @@ Your contribution to MLflow Recipes is greatly appreciated by the community!
 
 ## Example Projects
 - [**Regression**: NYC taxi fare prediction](regression/README.md)
+- [**Classification**: Credit card fraud detection](classification/README.md)
 
 ## Installation instructions
 Follow the [MLflow Recipes installation guide](https://mlflow.org/docs/latest/recipes.html#installation).
@@ -107,7 +108,7 @@ mlflow recipes clean --step step_name
 ### Accessing MLflow Recipe Runs
 To view MLflow Experiments and MLflow Runs created by the recipe:
 
-1. Enter the example root directory: `cd mlr-regression-example`
+1. Enter the example root directory, for example: `cd regression`
 
 2. Start the MLflow UI
 
