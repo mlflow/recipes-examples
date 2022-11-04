@@ -1,6 +1,6 @@
 # MLflow Recipes Regression Example
 This repository serves as an example project for the
-[MLflow Regression Recipe](https://mlflow.org/docs/latest/recipes.html#regression-recipe).
+[MLflow Regression Recipe](https://mlflow.org/docs/latest/recipes.html#regression-recipe) (previously known as MLflow Pipeline).
 Follow the instructions below to download the latest MLflow and this repository
 to create a linear regressor and evaluate its performance, all out of box!
 
