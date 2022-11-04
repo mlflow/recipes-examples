@@ -37,7 +37,6 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -r ./requirements.txt
-          pip install -r ./requirements/regression-requirements.txt
           pip install -r ./requirements/test-requirements.txt
       - name: Run unit tests
         run: |
