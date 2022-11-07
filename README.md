@@ -25,7 +25,7 @@ Your contribution to MLflow Recipes is greatly appreciated by the community!
 
 ## Installation instructions
 To use MLflow Recipes in this example repository,
-simply install the packages listed in the `requirements.txt` file:
+simply install the packages listed in the `requirements.txt` file. Note that `Python 3.8` or above is recommended.
 ```
 pip install requirements.txt
 ```
