@@ -17,6 +17,14 @@ def transformer_fn():
     transformers.
     """
 
+    import sklearn
+
+    function_transformer_params = (
+        {}
+        if sklearn.__version__.startswith("1.0")
+        else {"feature_names_out": "one-to-one"}
+    )
+
     return Pipeline(
         steps=[
             (
@@ -28,7 +36,8 @@ def transformer_fn():
                             OneHotEncoder(categories="auto", sparse=False),
                             ["amountRange"],
                         ),
-                    ]
+                    ],
+                    **function_transformer_params
                 ),
             ),
         ]
