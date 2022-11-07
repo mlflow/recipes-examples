@@ -24,7 +24,12 @@ Your contribution to MLflow Recipes is greatly appreciated by the community!
 - [**Classification**: Credit card fraud detection](classification/README.md)
 
 ## Installation instructions
-Follow the [MLflow Recipes installation guide](https://mlflow.org/docs/latest/recipes.html#installation).
+To use MLflow Recipes in this example repository,
+simply install the packages listed in the `requirements.txt` file:
+```
+pip install requirements.txt
+```
+
 You may need to install additional libraries for extra features:
 - [Hyperopt](https://pypi.org/project/hyperopt/)  is required for hyperparameter tuning.
 - [PySpark](https://pypi.org/project/pyspark/)  is required for distributed training or to ingest Spark tables.
