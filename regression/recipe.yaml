@@ -23,14 +23,14 @@ steps:
     split_ratios: {{SPLIT_RATIOS|default([0.75, 0.125, 0.125])}}
     # Specifies the method to use to perform additional cleaning on split datasets
     # Note that arbitrary transformations should go into the transform step
-    post_split_filter_method: steps.split.create_dataset_filter
+    post_split_filter_method: create_dataset_filter
   transform:
     # Specifies the method that defines the data transformations to apply during model inference
-    transformer_method: steps.transform.transformer_fn
+    transformer_method: transformer_fn
   train:
     using: custom
     # Specifies the method that defines the estimator type and parameters to use for model training
-    estimator_method: steps.train.estimator_fn
+    estimator_method: estimator_fn
   evaluate:
     # Sets performance thresholds that a trained model must meet in order to be eligible for
     # registration to the MLflow Model Registry
