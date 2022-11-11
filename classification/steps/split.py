@@ -16,4 +16,4 @@ def create_dataset_filter(dataset: DataFrame) -> Series(bool):
     :return: A Series indicating whether each row should be filtered
     """
 
-    return None
+    return Series(True, index=dataset.index)
