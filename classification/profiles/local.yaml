@@ -18,7 +18,7 @@ INGEST_CONFIG:
   # For different options please read: https://github.com/mlflow/recipes-classification-template#ingest-step
   using: csv
   location: ["./data/winequality-white.csv", "./data/winequality-red.csv"]
-  custom_loader_method: steps.ingest.load_file_as_dataframe
+  custom_loader_method: load_file_as_dataframe
 
 INGEST_SCORING_CONFIG:
   # For different options please read: https://github.com/mlflow/recipes-classification-template#batch-scoring
