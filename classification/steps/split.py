@@ -16,8 +16,4 @@ def create_dataset_filter(dataset: DataFrame) -> Series(bool):
     :return: A Series indicating whether each row should be filtered
     """
 
-    return (
-        (dataset["time"] >= 0)
-        & (dataset["amountRange"] <= 7)
-        & (dataset["amountRange"] >= 0)
-    ) | (~dataset.isna().any(axis=1))
+    return None

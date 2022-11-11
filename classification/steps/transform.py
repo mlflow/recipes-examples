@@ -17,19 +17,4 @@ def transformer_fn():
     transformers.
     """
 
-    return Pipeline(
-        steps=[
-            (
-                "encoder",
-                ColumnTransformer(
-                    transformers=[
-                        (
-                            "amount_encoder",
-                            OneHotEncoder(categories="auto", sparse=False),
-                            ["amountRange"],
-                        ),
-                    ]
-                ),
-            ),
-        ]
-    )
+    return None

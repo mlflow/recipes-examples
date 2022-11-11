@@ -9,22 +9,24 @@ model_registry:
   # registry_uri: "sqlite:////tmp/registry.db"
   # FIXME::REQUIRED: Specifies the name of the Registered Model to use when registering a trained
   #                 model to the MLflow Model Registry.
-  model_name: "credit_card_fraud_classifier"
+  model_name: "red_wine_classifier"
 
 # Override the default train / validation / test dataset split ratios
 SPLIT_RATIOS: [0.80, 0.10, 0.10]
 
 INGEST_CONFIG:
-  # For different options please read: https://github.com/mlflow/mlp-classification-template#ingest-step
-  using: parquet
-  location: "./data/sample.parquet"
+  # For different options please read: https://github.com/mlflow/recipes-classification-template#ingest-step
+  using: csv
+  location: "./data/winequality.csv"
+  custom_loader_method: steps.ingest.load_file_as_dataframe
+#  skip_data_profiling: False
 
 INGEST_SCORING_CONFIG:
-  # For different options please read: https://github.com/mlflow/mlp-classification-template#batch-scoring
+  # For different options please read: https://github.com/mlflow/recipes-classification-template#batch-scoring
   using: parquet
-  location: "./data/sample.parquet"
+  location: "./data/winequality.csv"
 
 PREDICT_OUTPUT_CONFIG:
-  # For different options please read: https://github.com/mlflow/mlp-classification-template#predict-step
+  # For different options please read: https://github.com/mlflow/recipes-classification-template#predict-step
   using: parquet
-  location: "./data/sample_output.parquet"
+  location: "./data/is_red_wine_prediction.parquet"
