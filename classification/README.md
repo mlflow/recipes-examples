@@ -20,8 +20,11 @@ you will learn how to use MLflow Recipes to
 - Splits the dataset into training/validation/test.
 - Create an identity transformer and transform the dataset.
 - Train a linear model (classifier) to tell if a bottle of wine is red.
+    - Train via AutoML
 - Evaluate the trained model, and improve it by iterating through the `transform` and `train` steps.
 - Register the model for production inference.
+
+We support training via AutoML by simply specifying `using: automl/flaml` in the `train` step.
 
 All of these can be done with Jupyter notebook or on the Databricks environment.
 Finally, challenge yourself to build a better model. Try the following:
