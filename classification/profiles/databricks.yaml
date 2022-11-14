@@ -16,7 +16,7 @@ model_registry:
 SPLIT_RATIOS: [0.75, 0.125, 0.125]
 
 INGEST_CONFIG:
-  # For different options please read: https://github.com/mlflow/mlp-classification-template#ingest-step
+  # For different options please read: https://github.com/mlflow/recipes-classification-template#ingest-step
   using: csv
   loader_method: load_file_as_dataframe
   location:
@@ -24,11 +24,11 @@ INGEST_CONFIG:
     - "/dbfs/databricks-datasets/wine-quality/winequality-red.csv"
 
 INGEST_SCORING_CONFIG:
-  # For different options please read: https://github.com/mlflow/mlp-classification-template#batch-scoring
+  # For different options please read: https://github.com/mlflow/recipes-classification-template#batch-scoring
   using: parquet
   location: ""
 
 PREDICT_OUTPUT_CONFIG:
-  # For different options please read: https://github.com/mlflow/mlp-classification-template#predict-step
+  # For different options please read: https://github.com/mlflow/recipes-classification-template#predict-step
   using: table
   location: "is_red_wine_prediction"

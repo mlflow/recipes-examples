@@ -36,7 +36,6 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -r ./requirements.txt
-          pip install mlflow@git+https://github.com/mlflow/mlflow@master
       - name: Run example
         run: |
           cd regression
