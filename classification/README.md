@@ -1,4 +1,4 @@
-# Is this bottle of wine red or white? Binary classification
+# Binary classification: Is this bottle of wine red or white?
 This is the root directory for an example project for the
 [MLflow Classification Recipe](https://mlflow.org/docs/latest/recipes.html#classification-recipe).
 Follow the instructions [here](../README.md) to set up your environment first,
