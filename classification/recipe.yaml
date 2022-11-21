@@ -27,6 +27,7 @@ steps:
     # Note that arbitrary transformations should go into the transform step
     # post_split_filter_method: create_dataset_filter
   transform:
+    using: custom
     # Specifies the method that defines the data transformations to apply during model inference
     transformer_method: transformer_fn
   train:
