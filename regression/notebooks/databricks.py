@@ -14,7 +14,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md ### Create a new recipe with "databricks" profile:
+# MAGIC %md ### Start with a recipe:
 
 # COMMAND ----------
 
@@ -28,7 +28,7 @@ r.clean()
 
 # COMMAND ----------
 
-# MAGIC %md ### Inspect a newly created recipe using a graphical representation:
+# MAGIC %md ### Inspect recipe DAG:
 
 # COMMAND ----------
 
@@ -36,7 +36,7 @@ r.inspect()
 
 # COMMAND ----------
 
-# MAGIC %md ### Ingest the dataset into the recipe:
+# MAGIC %md ### Ingest the dataset:
 
 # COMMAND ----------
 
@@ -44,7 +44,7 @@ r.run("ingest")
 
 # COMMAND ----------
 
-# MAGIC %md ### Split the dataset in train, validation and test data profiles:
+# MAGIC %md ### Split the dataset into train, validation and test:
 
 # COMMAND ----------
 
@@ -56,7 +56,7 @@ r.run("transform")
 
 # COMMAND ----------
 
-# MAGIC %md ### Using training data profile, train the model:
+# MAGIC %md ### Train the model:
 
 # COMMAND ----------
 
@@ -64,7 +64,7 @@ r.run("train")
 
 # COMMAND ----------
 
-# MAGIC %md ### Evaluate the resulting model using validation data profile:
+# MAGIC %md ### Evaluate the model:
 
 # COMMAND ----------
 
@@ -72,7 +72,7 @@ r.run("evaluate")
 
 # COMMAND ----------
 
-# MAGIC %md ### Register the trained model in the registry:
+# MAGIC %md ### Register the model:
 
 # COMMAND ----------
 
