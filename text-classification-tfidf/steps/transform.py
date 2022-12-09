@@ -5,7 +5,7 @@ This module defines the following routines used by the 'transform' step of the r
   to the estimator during model inference.
 """
 from sklearn.compose import ColumnTransformer
-from sklearn.decomposition import PCA
+from sklearn.decomposition import TruncatedSVD
 from sklearn.feature_extraction.text import (
     TfidfTransformer,
     CountVectorizer,
@@ -43,13 +43,7 @@ def transformer_fn():
                                             norm="l2",
                                         ),
                                     ),
-                                    (
-                                        "todense",
-                                        FunctionTransformer(
-                                            lambda x: x.todense(), accept_sparse=True
-                                        ),
-                                    ),
-                                    ("pca", PCA(n_components=250)),
+                                    ("svd", TruncatedSVD(n_components=250)),
                                 ]
                             ),
                             0,
