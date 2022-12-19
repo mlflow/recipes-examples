@@ -28,8 +28,9 @@ def load_file_as_dataframe(file_path: str, file_format: str) -> DataFrame:
 
     if file_format == "csv":
         import pandas
+
         df = pandas.read_csv(file_path, sep=",")
-        df["class"] = df["class"].astype('category').cat.codes
+        df["class"] = df["class"].astype("category").cat.codes
         return df
     else:
         raise NotImplementedError
