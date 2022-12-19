@@ -31,9 +31,24 @@ steps:
     # Specifies the method that defines the data transformations to apply during model inference
     transformer_method: transformer_fn
   train:
-    using: automl/flaml
+    using: custom
     # Specifies the method that defines the estimator type and parameters to use for model training
     estimator_method: estimator_fn
+    tuning:
+        enabled: true
+        max_trials: 2
+        sample_fraction: 0.5
+        parameters:
+            alpha:
+                distribution: "uniform"
+                low: 0.0
+                high: 0.01
+            penalty:
+                values: ["l2", "l1"]
+            eta0:
+                distribution: "normal"
+                mu: 0.01
+                sigma: 0.0001
   evaluate:
     # Sets performance thresholds that a trained model must meet in order to be eligible for
     # registration to the MLflow Model Registry

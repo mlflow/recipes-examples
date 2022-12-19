@@ -14,7 +14,8 @@ def estimator_fn(estimator_params: Dict[str, Any] = None):
     estimators.
     """
     from sklearn.svm import LinearSVC
+    from sklearn.linear_model import SGDRegressor
 
     if estimator_params is None:
         estimator_params = {}
-    return LinearSVC(random_state=42, **estimator_params)
+    return SGDRegressor(random_state=42, **(estimator_params or {}))

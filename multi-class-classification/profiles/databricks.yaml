@@ -19,13 +19,12 @@ INGEST_CONFIG:
   # For different options please read: https://github.com/mlflow/recipes-classification-template#ingest-step
   using: csv
   loader_method: load_file_as_dataframe
-  location:
-    - "/dbfs/databricks-datasets/Rdatasets/data-001/csv/datasets/iris.csv"
+  location: "./data/iris.csv"
 
 INGEST_SCORING_CONFIG:
   # For different options please read: https://github.com/mlflow/recipes-classification-template#batch-scoring
   using: csv
-  location: "/dbfs/databricks-datasets/Rdatasets/data-001/csv/datasets/iris.csv"
+  location: "./data/iris.csv"
 
 PREDICT_OUTPUT_CONFIG:
   # For different options please read: https://github.com/mlflow/recipes-classification-template#predict-step

@@ -12,34 +12,42 @@ from sklearn.feature_extraction.text import (
 )
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import FunctionTransformer
-from whatlies.language import HFTransformersLanguage
+from sentence_transformers import SentenceTransformer
 
-
+def encode_sentences(X):
+    model = SentenceTransformer('all-MiniLM-L6-v2')
+    pool = model.start_multi_process_pool()
+    emb = model.encode_multi_process(X.values, pool)
+    model.stop_multi_process_pool(pool)
+    return emb
+    
 def transformer_fn():
     """
     Returns an *unfitted* transformer that defines ``fit()`` and ``transform()`` methods.
     The transformer's input and output signatures should be compatible with scikit-learn
     transformers.
     """
-    pipeline = Pipeline(
-        [
-            (
-                "ct",
-                ColumnTransformer(
-                    [
-                        (
-                            "Consumer_complaint_narrative",
-                            Pipeline(
-                                [
-                                    ("embedding", HFTransformersLanguage("facebook/bart-base")),
-                                ]
-                            ),
-                            0,
-                        )
-                    ]
-                ),
-            )
-        ],
-        verbose=True,
-    )
-    return pipeline
+    
+    
+
+    return Pipeline(
+          [
+              (
+                  "ct",
+                  ColumnTransformer(
+                      [
+                          (
+                              "Consumer_complaint_narrative_transformer",
+                              Pipeline(
+                                  [
+                                      ("fn", FunctionTransformer(encode_sentences))
+                                  ]
+                              ),
+                              "Consumer_complaint_narrative",
+                          )
+                      ]
+                  ),
+              )
+          ],
+          verbose=True,
+      )

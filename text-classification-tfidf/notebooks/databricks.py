@@ -89,5 +89,17 @@ training_data.describe()
 
 # COMMAND ----------
 
+training_data[:1].to_json()
+
+# COMMAND ----------
+
 trained_model = r.get_artifact("model")
 print(trained_model)
+
+# COMMAND ----------
+
+trained_model.predict(training_data[:2])
+
+# COMMAND ----------
+
+

@@ -10,6 +10,9 @@
 # COMMAND ----------
 
 # MAGIC %pip install -r ../../requirements.txt
+# MAGIC %pip install -r ../requirements.txt
+# MAGIC %pip install -U sentence-transformers
+# MAGIC 
 # MAGIC %pip install git+https://github.com/mshtelma/mlflow.git@multiclassclassification
 
 # COMMAND ----------
@@ -52,6 +55,26 @@ r.run("split")
 
 # COMMAND ----------
 
+df = r.get_artifact("training_data").sample(10)
+display(df)
+
+
+# COMMAND ----------
+
+from sentence_transformers import SentenceTransformer
+model = SentenceTransformer('all-MiniLM-L6-v2')
+
+#Our sentences we like to encode
+sentences = ['This framework generates embeddings for each input sentence',
+    'Sentences are passed as a list of string.',
+    'The quick brown fox jumps over the lazy dog.']
+
+#Sentences are encoded by calling model.encode()
+embeddings = model.encode(df["Consumer_complaint_narrative"].values)
+embeddings
+
+# COMMAND ----------
+
 r.run("transform")
 
 # COMMAND ----------
@@ -91,3 +114,7 @@ training_data.describe()
 
 trained_model = r.get_artifact("model")
 print(trained_model)
+
+# COMMAND ----------
+
+

@@ -25,12 +25,14 @@ def load_file_as_dataframe(file_path: str, file_format: str) -> DataFrame:
     :param file_format: The file format string, such as "csv".
     :return: A Pandas DataFrame representing the content of the specified file.
     """
-
+    print(file_path)
+    print(file_format)
     if file_format == "csv":
         import pandas
 
         df = pandas.read_csv(file_path, sep=",")
         df["class"] = df["class"].astype("category").cat.codes
+        df["Consumer_complaint_narrative"] = df["Consumer_complaint_narrative"].astype("string")
         return df
     else:
         raise NotImplementedError

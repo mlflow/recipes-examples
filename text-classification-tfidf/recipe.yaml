@@ -41,10 +41,9 @@ steps:
     validation_criteria:
       - metric: f1_score_macro
         threshold: 0.6
-      - metric: precision_score
+      - metric: roc_auc_ovr
         threshold: 0.6
-      - metric: recall_score
-        threshold: 0.6
+
   register:
     # Indicates whether or not a model that fails to meet performance thresholds should still
     # be registered to the MLflow Model Registry
