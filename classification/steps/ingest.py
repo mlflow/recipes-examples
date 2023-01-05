@@ -35,8 +35,9 @@ def load_file_as_dataframe(file_path: str, file_format: str) -> DataFrame:
             " can adjust it by modifying the `load_file_as_dataframe()` function in"
             " `steps/ingest.py`"
         )
-        df = pandas.read_csv(file_path, sep=";")
-        df["is_red"] = 1 if "red" in str(file_path) else 0
+        df = pandas.read_csv(file_path, sep=",")
+        # df["is_red"] = 1 if "red" in str(file_path) else 0
+        print("df", df.columns)
         return df
     else:
         raise NotImplementedError

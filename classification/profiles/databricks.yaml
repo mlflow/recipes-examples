@@ -19,16 +19,17 @@ INGEST_CONFIG:
   # For different options please read: https://github.com/mlflow/recipes-classification-template#ingest-step
   using: csv
   loader_method: load_file_as_dataframe
-  location:
-    - "/dbfs/databricks-datasets/wine-quality/winequality-white.csv"
-    - "/dbfs/databricks-datasets/wine-quality/winequality-red.csv"
+  location: "https://data.ny.gov/resource/t3vp-5tka.csv"
 
 INGEST_SCORING_CONFIG:
   # For different options please read: https://github.com/mlflow/recipes-classification-template#batch-scoring
-  using: parquet
-  location: ""
+  using: csv
+  loader_method: load_file_as_dataframe
+  location: "https://data.ny.gov/resource/t3vp-5tka.csv"
 
 PREDICT_OUTPUT_CONFIG:
   # For different options please read: https://github.com/mlflow/recipes-classification-template#predict-step
   using: table
-  location: "is_red_wine_prediction"
+  location: "is_nyc_data_prediction"
+  save_mode: "overwrite"
+  result_type: "String"

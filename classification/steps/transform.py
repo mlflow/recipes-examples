@@ -5,6 +5,10 @@ This module defines the following routines used by the 'transform' step of the r
   to the estimator during model inference.
 """
 
+from pandas import DataFrame
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import OneHotEncoder, LabelEncoder
 
 def transformer_fn():
     """
@@ -12,5 +16,18 @@ def transformer_fn():
     The transformer's input and output signatures should be compatible with scikit-learn
     transformers.
     """
+    import sklearn
 
-    return None
+    return Pipeline(
+        steps=[
+            (
+                "encoder",
+                ColumnTransformer(
+                    transformers=[
+                        ('select', 'passthrough', ['jurisdictional_classification', 'negotiating_unit', 'federal_occupational_code', 'filled_positions'])
+                    ]
+                ),
+            )
+        ]
+    )
+
