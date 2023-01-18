@@ -13,8 +13,10 @@ def estimator_fn(estimator_params: Dict[str, Any] = None):
     The estimator's input and output signatures should be compatible with scikit-learn
     estimators.
     """
-    from sklearn.linear_model import SGDClassifier
+#     from sklearn.linear_model import SGDClassifier
 
-    if estimator_params is None:
-        estimator_params = {}
-    return SGDClassifier(random_state=42, **estimator_params)
+#     if estimator_params is None:
+#         estimator_params = {}
+#     return SGDClassifier(random_state=42, **estimator_params)
+    import xgboost as xgb
+    return xgb.XGBClassifier()
