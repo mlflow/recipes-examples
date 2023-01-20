@@ -18,5 +18,7 @@ def estimator_fn(estimator_params: Dict[str, Any] = None):
 #     if estimator_params is None:
 #         estimator_params = {}
 #     return SGDClassifier(random_state=42, **estimator_params)
-    import xgboost as xgb
-    return xgb.XGBClassifier()
+    from sklearn.linear_model import LogisticRegression
+    return LogisticRegression()
+#     import xgboost as xgb
+#     return xgb.XGBClassifier()
