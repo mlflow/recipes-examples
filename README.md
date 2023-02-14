@@ -21,7 +21,7 @@ Your contribution to MLflow Recipes is greatly appreciated by the community!
 
 ## Example Projects
 - [**Regression**: NYC taxi fare prediction](regression/README.md)
-- [**Classification**: Credit card fraud detection](classification/README.md)
+- [**Classification**: Wine Quality multiclassification](classification/README.md)
 
 ## Installation instructions
 To use MLflow Recipes in this example repository,
