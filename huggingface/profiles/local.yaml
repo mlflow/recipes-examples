@@ -1,0 +1,31 @@
+experiment:
+  name: "sklearn_classification_experiment"
+  tracking_uri: "sqlite:///metadata/mlflow/mlruns.db"
+  artifact_location: "./metadata/mlflow/mlartifacts"
+
+# Set the registry server URI. This property is especially useful if you have a registry
+# server that’s different from the tracking server.
+model_registry:
+  # registry_uri: "sqlite:////tmp/registry.db"
+  # FIXME::REQUIRED: Specifies the name of the Registered Model to use when registering a trained
+  #                 model to the MLflow Model Registry.
+  model_name: "red_wine_classifier"
+
+# Override the default train / validation / test dataset split ratios
+SPLIT_RATIOS: [0.80, 0.10, 0.10]
+
+INGEST_CONFIG:
+  # For different options please read: https://github.com/mlflow/recipes-classification-template#ingest-step
+  using: csv
+  location: ["./data/winequality-white.csv", "./data/winequality-red.csv"]
+  loader_method: load_file_as_dataframe
+
+INGEST_SCORING_CONFIG:
+  # For different options please read: https://github.com/mlflow/recipes-classification-template#batch-scoring
+  using: parquet
+  location: "./data/winequality.csv"
+
+PREDICT_OUTPUT_CONFIG:
+  # For different options please read: https://github.com/mlflow/recipes-classification-template#predict-step
+  using: parquet
+  location: "./data/is_red_wine_prediction.parquet"
