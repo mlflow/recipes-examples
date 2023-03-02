@@ -1,0 +1,4 @@
+# Required for hugging face support for recipes test
+transformers
+evaluate
+datasets
