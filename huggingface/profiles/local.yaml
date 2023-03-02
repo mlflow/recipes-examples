@@ -17,14 +17,14 @@ SPLIT_RATIOS: [0.80, 0.10, 0.10]
 INGEST_CONFIG:
   # For different options please read: https://github.com/mlflow/recipes-classification-template#ingest-step
   using: huggingface
-  location: ["./data/raw.txt"]
-  dataset_format: "text"
+  location: ["./data/input.json"]
+  dataset_format: "json"
 
 INGEST_SCORING_CONFIG:
   # For different options please read: https://github.com/mlflow/recipes-classification-template#batch-scoring
   using: huggingface
-  location: ["./data/raw.txt"]
-  dataset_format: "text"
+  location: ["./data/input.json"]
+  dataset_format: "json"
 
 PREDICT_OUTPUT_CONFIG:
   # For different options please read: https://github.com/mlflow/recipes-classification-template#predict-step
