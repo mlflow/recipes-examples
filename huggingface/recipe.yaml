@@ -11,6 +11,9 @@
 # files are properly formatted.
 
 recipe: "huggingface/v1"
+# Specifies the name of the column containing targets / labels for model training and evaluation
+# There are 2 columns: "character" and "speech" for this example text generation problem.
+target_col: "speech"
 # Sets the primary metric to use to evaluate model performance. This primary metric is used
 # to sort MLflow Runs corresponding to the recipe in the MLflow Tracking UI
 primary_metric: "squad_v2"
