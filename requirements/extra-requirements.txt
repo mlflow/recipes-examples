@@ -2,3 +2,6 @@
 transformers>=4.26.0
 evaluate>=0.4.0
 datasets>=1.8.0
+torch
+torchvision
+torchaudio
