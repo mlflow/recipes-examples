@@ -19,7 +19,6 @@ def transformer_fn():
     model_name = "distilbert-base-uncased"
     tokenizer = AutoTokenizer.from_pretrained(
         model_name,
-        cache_dir="./",  # transformer_params["cache_dir"],
         use_fast=True,
     )
     # Global parameters for tokenizer and model.
@@ -46,14 +45,12 @@ def transformer_fn():
             max_length=max_seq_length,
             padding=padding,
             truncation=True,
-            # return_tensors="np",
         )
         labels = tokenizer(
             targets.tolist(),
             max_length=max_seq_length,
             padding=padding,
             truncation=True,
-            # return_tensors="np",
         )
         labels["input_ids"] = [
             [(l if l != tokenizer.pad_token_id else -100) for l in label]
