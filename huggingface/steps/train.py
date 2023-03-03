@@ -26,18 +26,15 @@ def trainer_fn(estimator_params: Dict[str, Any]):
     # Model name
     model_name = "distilbert-base-uncased"
     config = AutoConfig.from_pretrained(
-        model_name,
-        cache_dir=training_args.output_dir,
+        model_name
     )
     tokenizer = AutoTokenizer.from_pretrained(
         model_name,
-        cache_dir=training_args.output_dir,
-        use_fast=True,
+        use_fast=True
     )
     model = DistilBertForMaskedLM.from_pretrained(
         model_name,
-        config=config,
-        cache_dir=training_args.output_dir,
+        config=config
     )
     # Global parameters for tokenizer and model.
     max_seq_length = min(128, tokenizer.model_max_length)
