@@ -39,64 +39,12 @@ def trainer_fn(estimator_params: Dict[str, Any]):
         config=config,
         cache_dir=training_args.output_dir,
     )
-    # Global parameters for tokenizer and model.
-    max_seq_length = min(128, tokenizer.model_max_length)
-    padding = "max_length"
-    question_column = "character"
-    answer_column = "speech"
-
     # We resize the embeddings only when necessary to avoid index errors.
     embedding_size = model.get_input_embeddings().weight.shape[0]
     if len(tokenizer) > embedding_size:
         model.resize_token_embeddings(len(tokenizer))
 
-    def preprocess_squad_batch(
-        examples,
-        question_column: str,
-        answer_column: str,
-    ) -> Tuple[List[str], List[str]]:
-        questions = examples[question_column]
-        answers = examples[answer_column]
-        pairs = [[q, a] for q, a in zip(questions, answers)]
-        return questions, answers, pairs
-
-    def preprocess_examples(examples):
-        inputs, targets, pairs = preprocess_squad_batch(
-            examples, question_column, answer_column
-        )
-        model_inputs = tokenizer(
-            inputs,
-            max_length=max_seq_length,
-            padding=padding,
-            truncation=True,
-            return_tensors="pt",
-        )
-        labels = tokenizer(
-            targets,
-            max_length=max_seq_length,
-            padding=padding,
-            truncation=True,
-            return_tensors="pt",
-        )
-        labels["input_ids"] = [
-            [(l if l != tokenizer.pad_token_id else -100) for l in label]
-            for label in labels["input_ids"]
-        ]
-        model_inputs["labels"] = labels["input_ids"]
-        model_inputs["decoder_input_ids"] = labels["input_ids"]
-        return model_inputs
-
     train_dataset = estimator_params["train_dataset"]
-    # Create train feature from dataset
-    train_dataset = train_dataset.map(
-        preprocess_examples,
-        batched=True,
-        num_proc=1,
-        load_from_cache_file=True,
-        remove_columns=[question_column, answer_column],
-        desc="Running tokenizer on train dataset",
-    )
-
     # Data collator
     data_collator = DataCollatorForSeq2Seq(
         tokenizer,
