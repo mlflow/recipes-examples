@@ -6,7 +6,7 @@ This module defines the following routines used by the 'transform' step of the r
 """
 
 
-def transformer_fn():
+def tokenizer_fn():
     """
     Returns an *unfitted* transformer that defines ``fit()`` and ``transform()`` methods.
     The transformer's input and output signatures should be compatible with scikit-learn
