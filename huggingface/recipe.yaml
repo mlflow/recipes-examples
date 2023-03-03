@@ -27,8 +27,9 @@ steps:
     # post_split_filter_method: create_dataset_filter
   transform:
     using: custom
+    skip_data_profiling: true
     # Specifies the method that defines the data transformations to apply during model inference
-    transformer_method: tokenizer_fn
+    transformer_method: transformer_fn
   train:
     using: custom
     # Specifies the method that defines the estimator type and parameters to use for model training
