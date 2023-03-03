@@ -38,10 +38,10 @@ def trainer_fn(estimator_params: Dict[str, Any]):
     )
     # Global parameters for tokenizer and model.
     max_seq_length = min(128, tokenizer.model_max_length)
-    padding="max_length"
+    padding = "max_length"
     question_column = "character"
     answer_column = "speech"
-    
+
     # We resize the embeddings only when necessary to avoid index errors.
     embedding_size = model.get_input_embeddings().weight.shape[0]
     if len(tokenizer) > embedding_size:
@@ -56,7 +56,7 @@ def trainer_fn(estimator_params: Dict[str, Any]):
         answers = examples[answer_column]
         pairs = [[q, a] for q, a in zip(questions, answers)]
         return questions, answers, pairs
-    
+
     def preprocess_examples(examples):
         inputs, targets, pairs = preprocess_squad_batch(
             examples, question_column, answer_column
