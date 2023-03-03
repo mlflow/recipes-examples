@@ -11,12 +11,12 @@ from typing import Dict, Any, List, Tuple
 import datasets
 import evaluate
 from transformers.trainer_utils import EvalLoopOutput, EvalPrediction 
-from trainer_seq2seq_qa import QuestionAnsweringSeq2SeqTrainer
 from transformers import (
     AutoConfig,
     AutoModelForSeq2SeqLM,
     AutoTokenizer,
     DataCollatorForSeq2Seq,
+    Seq2SeqTrainer,
 )
 
 _logger = logging.getLogger(__name__)
@@ -126,56 +126,19 @@ def trainer_fn(estimator_params: Dict[str, Any]):
             desc="Running tokenizer on train dataset",
         )
 
-        # Data collator
-        label_pad_token_id = -100 if training_args.ignore_pad_token_for_loss else tokenizer.pad_token_id
-        data_collator = DataCollatorForSeq2Seq(
-            tokenizer,
-            model=model,
-            label_pad_token_id=label_pad_token_id,
-            pad_to_multiple_of=8 if training_args.fp16 else None,
-        )
-
-        metric = evaluate.load("squad_v2")
-
-        def compute_metrics(p: EvalPrediction):
-            return metric.compute(predictions=p.predictions, references=p.label_ids)
-
-        # Post-processing:
-        def post_processing_function(
-            examples: datasets.Dataset, features: datasets.Dataset, outputs: EvalLoopOutput, stage="eval"
-        ):
-            # Decode the predicted tokens.
-            preds = outputs.predictions
-            if isinstance(preds, tuple):
-                preds = preds[0]
-            decoded_preds = tokenizer.batch_decode(preds, skip_special_tokens=True)
-
-            # Build a map example to its corresponding features.
-            example_id_to_index = {k: i for i, k in enumerate(examples["id"])}
-            feature_per_example = {example_id_to_index[feature["example_id"]]: i for i, feature in enumerate(features)}
-            predictions = {}
-            # Let's loop over all the examples!
-            for example_index, example in enumerate(examples):
-                # This is the index of the feature associated to the current example.
-                feature_index = feature_per_example[example_index]
-                predictions[example["id"]] = decoded_preds[feature_index]
-
-            # Format the result to the format the metric expects.
-            formatted_predictions = [
-                {"id": k, "prediction_text": v, "no_answer_probability": 0.0} for k, v in predictions.items()
-            ]
-
-            references = [{"id": ex["id"], "answers": ex[training_args.answer_column]} for ex in examples]
-            return EvalPrediction(predictions=formatted_predictions, label_ids=references)
-
-        # Initialize our Trainer
-        trainer = QuestionAnsweringSeq2SeqTrainer(
-            model=model,
-            args=training_args,
-            train_dataset=train_dataset,
-            tokenizer=tokenizer,
-            data_collator=data_collator,
-            compute_metrics=compute_metrics,
-            post_process_function=post_processing_function,
-        )
-        return trainer
+    # Data collator
+    label_pad_token_id = -100 if training_args.ignore_pad_token_for_loss else tokenizer.pad_token_id
+    data_collator = DataCollatorForSeq2Seq(
+        tokenizer,
+        model=model,
+        label_pad_token_id=label_pad_token_id,
+        pad_to_multiple_of=8 if training_args.fp16 else None,
+    )
+    trainer = Seq2SeqTrainer(
+        model=model,
+        args=training_args,
+        train_dataset=train_dataset,
+        tokenizer=tokenizer,
+        data_collator=data_collator,
+    )
+    return trainer
