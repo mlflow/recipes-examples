@@ -22,7 +22,10 @@ def trainer_fn(estimator_params: Dict[str, Any]):
       'train_dataset': A ``datasets.Dataset`` object for training.
       'cache_dir': A string containing the path to the cache directory.
     """
-    training_args = TrainingArguments(output_dir=estimator_params["cache_dir"])
+    training_args = TrainingArguments(
+        save_steps = 20,
+        output_dir=estimator_params["cache_dir"]
+    )
     # Model name
     model_name = "distilbert-base-uncased"
     config = AutoConfig.from_pretrained(
