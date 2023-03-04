@@ -9,13 +9,13 @@ from transformers import (
     DataCollatorForSeq2Seq,
     DistilBertForMaskedLM,
     Seq2SeqTrainer,
-    TrainingArguments,
-    ProgressCallback,
+    Seq2SeqTrainingArguments,
 )
-
-import os
-
-os.environ["DISABLE_MLFLOW_INTEGRATION"] = "true"
+from transformers.integrations import (
+    AzureMLCallback,
+    MLflowCallback,
+    WandbCallback,
+)
 
 
 def trainer_fn(estimator_params: Dict[str, Any]):
@@ -27,9 +27,13 @@ def trainer_fn(estimator_params: Dict[str, Any]):
       'train_dataset': A ``datasets.Dataset`` object for training.
       'cache_dir': A string containing the path to the cache directory.
     """
-    training_args = TrainingArguments(
-        save_steps = 20,
-        output_dir=estimator_params["cache_dir"]
+    training_args = Seq2SeqTrainingArguments(
+        output_dir=estimator_params["cache_dir"],
+        evaluation_strategy="steps",
+        eval_steps=2,
+        save_steps=2,
+        max_steps=10,
+        log_level="warning",
     )
     # Model name
     model_name = "distilbert-base-uncased"
@@ -49,7 +53,6 @@ def trainer_fn(estimator_params: Dict[str, Any]):
     if len(tokenizer) > embedding_size:
         model.resize_token_embeddings(len(tokenizer))
 
-    train_dataset = estimator_params["train_dataset"]
     # Data collator
     data_collator = DataCollatorForSeq2Seq(
         tokenizer,
@@ -61,9 +64,12 @@ def trainer_fn(estimator_params: Dict[str, Any]):
     trainer = Seq2SeqTrainer(
         model=model,
         args=training_args,
-        train_dataset=train_dataset,
+        train_dataset=estimator_params["train_dataset"],
+        eval_dataset=estimator_params["validation_dataset"],
         tokenizer=tokenizer,
         data_collator=data_collator,
-        callbacks=[ProgressCallback],
     )
+    trainer.remove_callback(AzureMLCallback)
+    trainer.remove_callback(MLflowCallback)
+    trainer.remove_callback(WandbCallback)
     return trainer
