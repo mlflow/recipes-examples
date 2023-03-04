@@ -4,17 +4,13 @@ This module defines the following routines used by the 'transform' step of the r
 - ``transformer_fn``: Defines customizable logic for transforming input data before it is passed
   to the estimator during model inference.
 """
-import pandas as pd
 from typing import Dict, Any, List, Tuple
-from sklearn.preprocessing import FunctionTransformer
 from transformers import AutoTokenizer
 
 
 def transformer_fn():
     """
-    Returns an *unfitted* transformer that defines ``fit()`` and ``transform()`` methods.
-    The transformer's input and output signatures should be compatible with scikit-learn
-    transformers.
+    Returns a function to process input examples and generate model inputs via tokenizer.
     """
     model_name = "distilbert-base-uncased"
     tokenizer = AutoTokenizer.from_pretrained(
@@ -31,7 +27,7 @@ def transformer_fn():
         examples,
         question_column: str,
         answer_column: str,
-    ) -> Tuple[pd.Series, pd.Series]:
+    ) -> Tuple[List[str], List[str]]:
         questions = examples[question_column]
         answers = examples[answer_column]
         return questions, answers
@@ -41,13 +37,13 @@ def transformer_fn():
             examples, question_column, answer_column
         )
         model_inputs = tokenizer(
-            inputs.tolist(),
+            inputs,
             max_length=max_seq_length,
             padding=padding,
             truncation=True,
         )
         labels = tokenizer(
-            targets.tolist(),
+            targets,
             max_length=max_seq_length,
             padding=padding,
             truncation=True,
@@ -60,4 +56,4 @@ def transformer_fn():
         model_inputs["decoder_input_ids"] = labels["input_ids"]
         return model_inputs
 
-    return FunctionTransformer(preprocess_examples)
+    return preprocess_examples

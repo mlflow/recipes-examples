@@ -10,7 +10,12 @@ from transformers import (
     DistilBertForMaskedLM,
     Seq2SeqTrainer,
     TrainingArguments,
+    ProgressCallback,
 )
+
+import os
+
+os.environ["DISABLE_MLFLOW_INTEGRATION"] = "true"
 
 
 def trainer_fn(estimator_params: Dict[str, Any]):
@@ -59,5 +64,6 @@ def trainer_fn(estimator_params: Dict[str, Any]):
         train_dataset=train_dataset,
         tokenizer=tokenizer,
         data_collator=data_collator,
+        callbacks=[ProgressCallback],
     )
     return trainer
