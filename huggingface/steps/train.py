@@ -2,15 +2,10 @@
 This module defines the following routine to be used by the 'train' step:
 - ``trainer_fn``: Returns a ``Trainer`` object for training a HF model.
 """
-from typing import Dict, Any, List, Tuple
-from transformers import (
-    AutoConfig,
-    AutoTokenizer,
-    DataCollatorForSeq2Seq,
-    DistilBertForMaskedLM,
-    Seq2SeqTrainer,
-    Seq2SeqTrainingArguments,
-)
+from typing import Dict, Any
+from transformers import DataCollatorForLanguageModeling
+from transformers import GPT2Tokenizer, GPT2LMHeadModel
+from transformers import Trainer, TrainingArguments
 from transformers.integrations import (
     AzureMLCallback,
     MLflowCallback,
@@ -25,48 +20,39 @@ def trainer_fn(estimator_params: Dict[str, Any]):
     Input estimator_params is a dictionary of parameters passed to the estimator.
     It contains the following keys:
       'train_dataset': A ``datasets.Dataset`` object for training.
-      'cache_dir': A string containing the path to the cache directory.
+      'validation_dataset': A ``datasets.Dataset`` object for validation.
+      'output_dir': A string containing the path to the cache directory.
     """
-    training_args = Seq2SeqTrainingArguments(
-        output_dir=estimator_params["cache_dir"],
+    training_args = TrainingArguments(
+        output_dir=estimator_params["output_dir"],
         evaluation_strategy="steps",
         eval_steps=2,
-        save_steps=2,
-        max_steps=10,
+        save_steps=5,
+        max_steps=5,
         log_level="warning",
+        disable_tqdm=True,
     )
     # Model name
-    model_name = "distilbert-base-uncased"
-    config = AutoConfig.from_pretrained(
-        model_name
-    )
-    tokenizer = AutoTokenizer.from_pretrained(
-        model_name,
-        use_fast=True
-    )
-    model = DistilBertForMaskedLM.from_pretrained(
-        model_name,
-        config=config
-    )
+    model_name = "gpt2"
+    tokenizer = GPT2Tokenizer.from_pretrained(model_name, use_fast=True)
+    tokenizer.add_special_tokens({'pad_token': '[PAD]'})
+    model = GPT2LMHeadModel.from_pretrained(model_name)
     # We resize the embeddings only when necessary to avoid index errors.
     embedding_size = model.get_input_embeddings().weight.shape[0]
     if len(tokenizer) > embedding_size:
         model.resize_token_embeddings(len(tokenizer))
 
-    # Data collator
-    data_collator = DataCollatorForSeq2Seq(
+    data_collator = DataCollatorForLanguageModeling(
         tokenizer,
-        model=model,
-        label_pad_token_id=tokenizer.pad_token_id,
+        mlm=False,
         pad_to_multiple_of=8,
         return_tensors="pt",
     )
-    trainer = Seq2SeqTrainer(
+    trainer = Trainer(
         model=model,
         args=training_args,
         train_dataset=estimator_params["train_dataset"],
         eval_dataset=estimator_params["validation_dataset"],
-        tokenizer=tokenizer,
         data_collator=data_collator,
     )
     trainer.remove_callback(AzureMLCallback)
