@@ -6,7 +6,8 @@ This module defines the following routines used by the 'transform' step of the r
 """
 from typing import Dict, Any, List, Tuple
 from transformers import AutoTokenizer
-
+from sklearn.preprocessing import FunctionTransformer
+from sklearn.pipeline import Pipeline
 
 def transformer_fn():
     """
@@ -56,4 +57,11 @@ def transformer_fn():
         model_inputs["decoder_input_ids"] = labels["input_ids"]
         return model_inputs
 
-    return preprocess_examples
+    return Pipeline(
+        steps=[
+            (
+                "process_examples",
+                FunctionTransformer(preprocess_examples),
+            )
+        ]
+    )
