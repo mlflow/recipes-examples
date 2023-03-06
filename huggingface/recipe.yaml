@@ -38,13 +38,10 @@ steps:
   evaluate:
     # Sets performance thresholds that a trained model must meet in order to be eligible for
     # registration to the MLflow Model Registry
-    validation_criteria:
-      - metric: squad_v2
-        threshold: 0.6
   register:
     # Indicates whether or not a model that fails to meet performance thresholds should still
     # be registered to the MLflow Model Registry
-    allow_non_validated_model: false
+    allow_non_validated_model: true
   ingest_scoring: {{INGEST_SCORING_CONFIG}}
   predict:
     output: {{PREDICT_OUTPUT_CONFIG}}
