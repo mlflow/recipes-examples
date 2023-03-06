@@ -23,9 +23,8 @@ def trainer_fn(estimator_params: Dict[str, Any]):
         evaluation_strategy="steps",
         eval_steps=2,
         save_steps=5,
-        max_steps=1,
+        max_steps=20,
         log_level="warning",
-        disable_tqdm=True,
     )
     # Model name
     model_name = "gpt2"
