@@ -6,11 +6,6 @@ from typing import Dict, Any
 from transformers import DataCollatorForLanguageModeling
 from transformers import GPT2Tokenizer, GPT2LMHeadModel
 from transformers import Trainer, TrainingArguments
-from transformers.integrations import (
-    AzureMLCallback,
-    MLflowCallback,
-    WandbCallback,
-)
 
 
 def trainer_fn(estimator_params: Dict[str, Any]):
@@ -28,25 +23,24 @@ def trainer_fn(estimator_params: Dict[str, Any]):
         evaluation_strategy="steps",
         eval_steps=2,
         save_steps=5,
-        max_steps=5,
+        max_steps=1,
         log_level="warning",
         disable_tqdm=True,
     )
     # Model name
     model_name = "gpt2"
     tokenizer = GPT2Tokenizer.from_pretrained(model_name, use_fast=True)
-    tokenizer.add_special_tokens({'pad_token': '[PAD]'})
+    # Set PAD token to EOS token for variable length sequences.
+    tokenizer.pad_token = tokenizer.eos_token
     model = GPT2LMHeadModel.from_pretrained(model_name)
     # We resize the embeddings only when necessary to avoid index errors.
     embedding_size = model.get_input_embeddings().weight.shape[0]
-    if len(tokenizer) > embedding_size:
+    if len(tokenizer) != embedding_size:
         model.resize_token_embeddings(len(tokenizer))
 
     data_collator = DataCollatorForLanguageModeling(
         tokenizer,
         mlm=False,
-        pad_to_multiple_of=8,
-        return_tensors="pt",
     )
     trainer = Trainer(
         model=model,
@@ -54,8 +48,6 @@ def trainer_fn(estimator_params: Dict[str, Any]):
         train_dataset=estimator_params["train_dataset"],
         eval_dataset=estimator_params["validation_dataset"],
         data_collator=data_collator,
+        tokenizer=tokenizer,
     )
-    trainer.remove_callback(AzureMLCallback)
-    trainer.remove_callback(MLflowCallback)
-    trainer.remove_callback(WandbCallback)
     return trainer

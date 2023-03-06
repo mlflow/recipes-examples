@@ -18,7 +18,8 @@ def transformer_fn():
         model_name,
         use_fast=True,
     )
-    tokenizer.add_special_tokens({'pad_token': '[PAD]'})
+    # Set PAD token to EOS token for variable length sequences.
+    tokenizer.pad_token = tokenizer.eos_token
     # Global parameters for tokenizer and model.
     max_seq_length = tokenizer.model_max_length
 
@@ -27,14 +28,8 @@ def transformer_fn():
             examples["text"],
             max_length=max_seq_length,
             truncation=True,
-            padding="max_length",
+            padding="do_not_pad",
         )
-        model_inputs["input_ids"] = [
-            [(l if l != tokenizer.pad_token_id else -100) for l in model_input]
-            for model_input in model_inputs["input_ids"]
-        ]
-        model_inputs["labels"] = model_inputs["input_ids"]
-        model_inputs["decoder_input_ids"] = model_inputs["input_ids"]
         return model_inputs
 
     return Pipeline(
