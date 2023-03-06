@@ -22,6 +22,7 @@ Your contribution to MLflow Recipes is greatly appreciated by the community!
 ## Example Projects
 - [**Regression**: NYC taxi fare prediction](regression/README.md)
 - [**Classification**: Wine Quality multiclassification](classification/README.md)
+- [**Huggingface**: Shakespeare style text generation](huggingface/README.md)
 
 ## Installation instructions
 To use MLflow Recipes in this example repository,
