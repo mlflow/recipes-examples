@@ -17,7 +17,7 @@ To apply black foramtting, do one of the following:
 fi
 
 echo -e "\n========== pylint ==========\n"
-pylint --rcfile="pylintrc" $(git ls-files | grep '\.py$')
+pylint --ignore-paths="regression/notebooks/databricks\.py" --rcfile="pylintrc" $(git ls-files | grep '\.py$')
 
 if [[ "$err" != "0" ]]; then
   echo -e "\nOne of the previous steps failed, check above"
