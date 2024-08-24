@@ -6,6 +6,7 @@ This module defines the following routines used by the 'transform' step of the r
 """
 
 from pandas import DataFrame
+from packaging.version import Version
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder, StandardScaler, FunctionTransformer
@@ -36,7 +37,7 @@ def transformer_fn():
 
     function_transformer_params = (
         {}
-        if sklearn.__version__.startswith("1.0")
+        if Version(sklearn.__version__) >= Version("1.0")
         else {"feature_names_out": "one-to-one"}
     )
 
@@ -52,12 +53,12 @@ def transformer_fn():
                     transformers=[
                         (
                             "hour_encoder",
-                            OneHotEncoder(categories="auto", sparse=False),
+                            OneHotEncoder(categories="auto", sparse_output=False),
                             ["pickup_hour"],
                         ),
                         (
                             "day_encoder",
-                            OneHotEncoder(categories="auto", sparse=False),
+                            OneHotEncoder(categories="auto", sparse_output=False),
                             ["pickup_dow"],
                         ),
                         (
