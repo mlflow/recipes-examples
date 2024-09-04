@@ -41,6 +41,12 @@ def transformer_fn():
         else {"feature_names_out": "one-to-one"}
     )
 
+    onehot_params = (
+        {"sparse_output": False}
+        if Version(sklearn.__version__) >= Version("1.2")
+        else {"sparse": False}
+    )
+
     return Pipeline(
         steps=[
             (
@@ -53,12 +59,12 @@ def transformer_fn():
                     transformers=[
                         (
                             "hour_encoder",
-                            OneHotEncoder(categories="auto", sparse_output=False),
+                            OneHotEncoder(categories="auto", **onehot_params),
                             ["pickup_hour"],
                         ),
                         (
                             "day_encoder",
-                            OneHotEncoder(categories="auto", sparse_output=False),
+                            OneHotEncoder(categories="auto", **onehot_params),
                             ["pickup_dow"],
                         ),
                         (
