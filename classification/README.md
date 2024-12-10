@@ -11,7 +11,7 @@ The example uses a dataset from the UCI Machine Learning Repository,
 presented in Modeling wine preferences by data mining from physicochemical properties
 [Cortez et al., 2009](https://www.sciencedirect.com/science/article/abs/pii/S0167923609001377).
 
-In this [notebook](notebooks/jupyter.ipynb) ([the Databricks version](notebooks/databricks.py)),
+In this [notebook](notebooks/jupyter.ipynb) ([the Databricks version](notebooks/databricks_notebook.py)),
 we show how to build and evaluate a very simple classifier step by step,
 following the best practices of machine learning engineering.
 By the end of this example,

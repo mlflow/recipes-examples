@@ -10,7 +10,7 @@ to predict the fare amount for a taxi ride in New York City,
 given the pickup and dropoff locations, trip duration and distance etc.
 The original data was published by the [NYC gov](https://www1.nyc.gov/site/tlc/about/tlc-trip-record-data.page).
 
-In this [notebook](notebooks/jupyter.ipynb) ([the Databricks version](notebooks/databricks.py)),
+In this [notebook](notebooks/jupyter.ipynb) ([the Databricks version](notebooks/databricks_notebook.py)),
 we show how to build and evaluate a very simple linear regressor step by step,
 following the best practices of machine learning engineering.
 By the end of this example,
