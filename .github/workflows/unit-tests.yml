@@ -26,6 +26,9 @@ env:
   MLFLOW_CONDA_HOME: /usr/share/miniconda
   SPARK_LOCAL_IP: localhost
 
+permissions:
+  contents: read
+
 jobs:
   regression_recipes_unit_test:
     runs-on: ubuntu-latest
